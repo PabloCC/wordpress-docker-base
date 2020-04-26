@@ -1,0 +1,6 @@
+.data
+.wp-content
+cache
+vendor
+dist
+node_modules
