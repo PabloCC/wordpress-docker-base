@@ -1,0 +1,52 @@
+version: '3.2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    links:
+      - db
+    ports:
+      - "8000:80"
+    volumes:
+      - type: bind
+        source: ./themes/${THEME_DIR}
+        target: /var/www/html/wp-content/themes/${THEME_DIR}
+      - type: bind
+        source: ./plugins/${PLUGIN_DIR}
+        target: /var/www/html/wp-content/plugins/${PLUGIN_DIR}
+      - type: bind
+        source: ./php/uploads.ini
+        target: /usr/local/etc/php/conf.d/uploads.ini
+      - type: bind
+        source: .wp-content
+        target: /var/www/html/wp-content
+        
+
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:${WORDPRESS_DB_PORT}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+  composer:
+    image: composer
+    depends_on:
+      - wordpress
+    volumes:
+      - type: bind
+        source: ./plugins/${PLUGIN_DIR}
+        target: /var/www/html/wp-content/plugins/${PLUGIN_DIR}
+      - type: bind
+        source: ./themes/${THEME_DIR}
+        target: /var/www/html/wp-content/themes/${THEME_DIR}
