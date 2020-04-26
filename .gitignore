@@ -1,6 +1,5 @@
 .data
 .wp-content
-cache
-vendor
-dist
-node_modules
+themes
+plugins
+.DS_Store
