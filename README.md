@@ -4,9 +4,9 @@ This project facilitates the construction of a wordpress environment with the be
 
 ## Get started
 
-- Add a wordpress theme to the **themes** folder.
-- Add a wordpress plugin to the **plugins** folder.
-- Change the **.env** file with your information.
-- Run in your terminal **docker-compose up**.
+- Add a wordpress theme to the `themes` folder.
+- Add a wordpress plugin to the `plugins` folder.
+- Change the `.env` file with your information.
+- Run in your terminal `docker-compose up`.
 
 
